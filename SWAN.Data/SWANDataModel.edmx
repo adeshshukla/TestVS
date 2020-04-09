@@ -1,0 +1,600 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SWANDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BranchCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="FullName" Type="varchar(max)" Nullable="false" />
+          <Property Name="HindiName" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="FullName" Type="varchar(max)" Nullable="false" />
+          <Property Name="HindiName" Type="nvarchar(max)" />
+          <Property Name="CourseTypeId" Type="int" Nullable="false" />
+          <Property Name="MaxSemesterCount" Type="int" Nullable="false" />
+          <Property Name="MaxDuration" Type="int" Nullable="false" />
+          <Property Name="IsLateralEntryAllowed" Type="bit" Nullable="false" />
+          <Property Name="ProgramId" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CourseBranchMapping">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseId" Type="int" Nullable="false" />
+          <Property Name="BranchId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CourseBranchSemesterMapping">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseBranchId" Type="int" Nullable="false" />
+          <Property Name="SemesterId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CourseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Semester">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+        </EntityType>
+        <EntityType Name="University">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ModTs" Type="datetime" />
+          <Property Name="CreateTs" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CourseBranchMappings_Branches">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="1" />
+          <End Role="CourseBranchMapping" Type="Self.CourseBranchMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseBranchMapping">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseBranchMappings_Courses">
+          <End Role="Course" Type="Self.Course" Multiplicity="1" />
+          <End Role="CourseBranchMapping" Type="Self.CourseBranchMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseBranchMapping">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseBranchSemesterMappings_CourseBranchMappings">
+          <End Role="CourseBranchMapping" Type="Self.CourseBranchMapping" Multiplicity="1" />
+          <End Role="CourseBranchSemesterMapping" Type="Self.CourseBranchSemesterMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseBranchMapping">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseBranchSemesterMapping">
+              <PropertyRef Name="CourseBranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseBranchSemesterMappings_Semesters">
+          <End Role="Semester" Type="Self.Semester" Multiplicity="1" />
+          <End Role="CourseBranchSemesterMapping" Type="Self.CourseBranchSemesterMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseBranchSemesterMapping">
+              <PropertyRef Name="SemesterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Courses_CourseTypes">
+          <End Role="CourseType" Type="Self.CourseType" Multiplicity="1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="CourseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Courses_Programs">
+          <End Role="Program" Type="Self.Program" Multiplicity="0..1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="ProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SWANDBModelStoreContainer">
+          <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseBranchMapping" EntityType="Self.CourseBranchMapping" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseBranchSemesterMapping" EntityType="Self.CourseBranchSemesterMapping" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseType" EntityType="Self.CourseType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Program" EntityType="Self.Program" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Session" EntityType="Self.Session" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="University" EntityType="Self.University" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CourseBranchMappings_Branches" Association="Self.FK_CourseBranchMappings_Branches">
+            <End Role="Branch" EntitySet="Branch" />
+            <End Role="CourseBranchMapping" EntitySet="CourseBranchMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseBranchMappings_Courses" Association="Self.FK_CourseBranchMappings_Courses">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="CourseBranchMapping" EntitySet="CourseBranchMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseBranchSemesterMappings_CourseBranchMappings" Association="Self.FK_CourseBranchSemesterMappings_CourseBranchMappings">
+            <End Role="CourseBranchMapping" EntitySet="CourseBranchMapping" />
+            <End Role="CourseBranchSemesterMapping" EntitySet="CourseBranchSemesterMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseBranchSemesterMappings_Semesters" Association="Self.FK_CourseBranchSemesterMappings_Semesters">
+            <End Role="Semester" EntitySet="Semester" />
+            <End Role="CourseBranchSemesterMapping" EntitySet="CourseBranchSemesterMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Courses_CourseTypes" Association="Self.FK_Courses_CourseTypes">
+            <End Role="CourseType" EntitySet="CourseType" />
+            <End Role="Course" EntitySet="Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Courses_Programs" Association="Self.FK_Courses_Programs">
+            <End Role="Program" EntitySet="Program" />
+            <End Role="Course" EntitySet="Course" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SWANDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SWANDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Branches" EntityType="SWANDBModel.Branch" />
+          <EntitySet Name="Courses" EntityType="SWANDBModel.Course" />
+          <EntitySet Name="CourseBranchMappings" EntityType="SWANDBModel.CourseBranchMapping" />
+          <EntitySet Name="CourseBranchSemesterMappings" EntityType="SWANDBModel.CourseBranchSemesterMapping" />
+          <EntitySet Name="CourseTypes" EntityType="SWANDBModel.CourseType" />
+          <EntitySet Name="Programs" EntityType="SWANDBModel.Program" />
+          <EntitySet Name="Semesters" EntityType="SWANDBModel.Semester" />
+          <AssociationSet Name="FK_CourseBranchMappings_Branches" Association="SWANDBModel.FK_CourseBranchMappings_Branches">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="CourseBranchMapping" EntitySet="CourseBranchMappings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseBranchMappings_Courses" Association="SWANDBModel.FK_CourseBranchMappings_Courses">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="CourseBranchMapping" EntitySet="CourseBranchMappings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Courses_CourseTypes" Association="SWANDBModel.FK_Courses_CourseTypes">
+            <End Role="CourseType" EntitySet="CourseTypes" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Courses_Programs" Association="SWANDBModel.FK_Courses_Programs">
+            <End Role="Program" EntitySet="Programs" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseBranchSemesterMappings_CourseBranchMappings" Association="SWANDBModel.FK_CourseBranchSemesterMappings_CourseBranchMappings">
+            <End Role="CourseBranchMapping" EntitySet="CourseBranchMappings" />
+            <End Role="CourseBranchSemesterMapping" EntitySet="CourseBranchSemesterMappings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseBranchSemesterMappings_Semesters" Association="SWANDBModel.FK_CourseBranchSemesterMappings_Semesters">
+            <End Role="Semester" EntitySet="Semesters" />
+            <End Role="CourseBranchSemesterMapping" EntitySet="CourseBranchSemesterMappings" />
+          </AssociationSet>
+          <EntitySet Name="Sessions" EntityType="SWANDBModel.Session" />
+          <EntitySet Name="Universities" EntityType="SWANDBModel.University" />
+        </EntityContainer>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HindiName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CourseBranchMappings" Relationship="SWANDBModel.FK_CourseBranchMappings_Branches" FromRole="Branch" ToRole="CourseBranchMapping" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HindiName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CourseTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MaxSemesterCount" Type="Int32" Nullable="false" />
+          <Property Name="MaxDuration" Type="Int32" Nullable="false" />
+          <Property Name="IsLateralEntryAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="ProgramId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CourseBranchMappings" Relationship="SWANDBModel.FK_CourseBranchMappings_Courses" FromRole="Course" ToRole="CourseBranchMapping" />
+          <NavigationProperty Name="CourseType" Relationship="SWANDBModel.FK_Courses_CourseTypes" FromRole="Course" ToRole="CourseType" />
+          <NavigationProperty Name="Program" Relationship="SWANDBModel.FK_Courses_Programs" FromRole="Course" ToRole="Program" />
+        </EntityType>
+        <EntityType Name="CourseBranchMapping">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
+          <Property Name="BranchId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Branch" Relationship="SWANDBModel.FK_CourseBranchMappings_Branches" FromRole="CourseBranchMapping" ToRole="Branch" />
+          <NavigationProperty Name="Course" Relationship="SWANDBModel.FK_CourseBranchMappings_Courses" FromRole="CourseBranchMapping" ToRole="Course" />
+          <NavigationProperty Name="CourseBranchSemesterMappings" Relationship="SWANDBModel.FK_CourseBranchSemesterMappings_CourseBranchMappings" FromRole="CourseBranchMapping" ToRole="CourseBranchSemesterMapping" />
+        </EntityType>
+        <EntityType Name="CourseBranchSemesterMapping">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseBranchId" Type="Int32" Nullable="false" />
+          <Property Name="SemesterId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CourseBranchMapping" Relationship="SWANDBModel.FK_CourseBranchSemesterMappings_CourseBranchMappings" FromRole="CourseBranchSemesterMapping" ToRole="CourseBranchMapping" />
+          <NavigationProperty Name="Semester" Relationship="SWANDBModel.FK_CourseBranchSemesterMappings_Semesters" FromRole="CourseBranchSemesterMapping" ToRole="Semester" />
+        </EntityType>
+        <EntityType Name="CourseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Courses" Relationship="SWANDBModel.FK_Courses_CourseTypes" FromRole="CourseType" ToRole="Course" />
+        </EntityType>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Courses" Relationship="SWANDBModel.FK_Courses_Programs" FromRole="Program" ToRole="Course" />
+        </EntityType>
+        <EntityType Name="Semester">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CourseBranchSemesterMappings" Relationship="SWANDBModel.FK_CourseBranchSemesterMappings_Semesters" FromRole="Semester" ToRole="CourseBranchSemesterMapping" />
+        </EntityType>
+        <Association Name="FK_CourseBranchMappings_Branches">
+          <End Type="SWANDBModel.Branch" Role="Branch" Multiplicity="1" />
+          <End Type="SWANDBModel.CourseBranchMapping" Role="CourseBranchMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseBranchMapping">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseBranchMappings_Courses">
+          <End Type="SWANDBModel.Course" Role="Course" Multiplicity="1" />
+          <End Type="SWANDBModel.CourseBranchMapping" Role="CourseBranchMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseBranchMapping">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Courses_CourseTypes">
+          <End Type="SWANDBModel.CourseType" Role="CourseType" Multiplicity="1" />
+          <End Type="SWANDBModel.Course" Role="Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="CourseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Courses_Programs">
+          <End Type="SWANDBModel.Program" Role="Program" Multiplicity="0..1" />
+          <End Type="SWANDBModel.Course" Role="Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="ProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseBranchSemesterMappings_CourseBranchMappings">
+          <End Type="SWANDBModel.CourseBranchMapping" Role="CourseBranchMapping" Multiplicity="1" />
+          <End Type="SWANDBModel.CourseBranchSemesterMapping" Role="CourseBranchSemesterMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseBranchMapping">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseBranchSemesterMapping">
+              <PropertyRef Name="CourseBranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseBranchSemesterMappings_Semesters">
+          <End Type="SWANDBModel.Semester" Role="Semester" Multiplicity="1" />
+          <End Type="SWANDBModel.CourseBranchSemesterMapping" Role="CourseBranchSemesterMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseBranchSemesterMapping">
+              <PropertyRef Name="SemesterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="University">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ModTs" Type="DateTime" Precision="3" />
+          <Property Name="CreateTs" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SWANDBModelStoreContainer" CdmEntityContainer="SWANDBEntities">
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="SWANDBModel.Branch">
+              <MappingFragment StoreEntitySet="Branch">
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="HindiName" ColumnName="HindiName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="SWANDBModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+                <ScalarProperty Name="IsLateralEntryAllowed" ColumnName="IsLateralEntryAllowed" />
+                <ScalarProperty Name="MaxDuration" ColumnName="MaxDuration" />
+                <ScalarProperty Name="MaxSemesterCount" ColumnName="MaxSemesterCount" />
+                <ScalarProperty Name="CourseTypeId" ColumnName="CourseTypeId" />
+                <ScalarProperty Name="HindiName" ColumnName="HindiName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="CourseCode" ColumnName="CourseCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseBranchMappings">
+            <EntityTypeMapping TypeName="SWANDBModel.CourseBranchMapping">
+              <MappingFragment StoreEntitySet="CourseBranchMapping">
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseBranchSemesterMappings">
+            <EntityTypeMapping TypeName="SWANDBModel.CourseBranchSemesterMapping">
+              <MappingFragment StoreEntitySet="CourseBranchSemesterMapping">
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
+                <ScalarProperty Name="CourseBranchId" ColumnName="CourseBranchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseTypes">
+            <EntityTypeMapping TypeName="SWANDBModel.CourseType">
+              <MappingFragment StoreEntitySet="CourseType">
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Programs">
+            <EntityTypeMapping TypeName="SWANDBModel.Program">
+              <MappingFragment StoreEntitySet="Program">
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Semesters">
+            <EntityTypeMapping TypeName="SWANDBModel.Semester">
+              <MappingFragment StoreEntitySet="Semester">
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sessions">
+            <EntityTypeMapping TypeName="SWANDBModel.Session">
+              <MappingFragment StoreEntitySet="Session">
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Universities">
+            <EntityTypeMapping TypeName="SWANDBModel.University">
+              <MappingFragment StoreEntitySet="University">
+                <ScalarProperty Name="CreateTs" ColumnName="CreateTs" />
+                <ScalarProperty Name="ModTs" ColumnName="ModTs" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
