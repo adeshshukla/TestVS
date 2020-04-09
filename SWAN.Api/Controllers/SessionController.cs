@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using SWAN.Helper;
 
 namespace SWAN.Controllers
 {
@@ -20,10 +21,17 @@ namespace SWAN.Controllers
 
         [HttpGet]
         // GET: api/Session/GetAllSessions
-        public CustomResponse GetAllSessions()
+        public HttpResponseMessage GetAllSessions()
         {
-            return _service.GetAllSessions();
+            //throw new ArgumentNullException();
+            return _service.GetAllSessions().ToCustomApiResponse();
         }
+
+        //public CustomResponse GetAllSessions()
+        //{
+        //    return _service.GetAllSessions();
+        //}
+
         [HttpPost]
         public CustomResponse InsertSession([FromBody]SessionModel value)
         {

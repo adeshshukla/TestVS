@@ -45,7 +45,8 @@ namespace SWAN.Services.Service
 
         public CustomResponse GetAllSessions()
         {
-            return _repo.GetAll();
+            //return _repo.GetAll();
+            return _repo.GetAllSessionInMemory();
         }
 
         public CustomResponse InsertSession(SessionModel _session)

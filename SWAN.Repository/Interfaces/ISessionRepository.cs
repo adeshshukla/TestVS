@@ -11,5 +11,6 @@ namespace SWAN.Repository.Interfaces
     public interface ISessionRepository : IRepository<Session, CustomResponse>
     {
         CustomResponse DeleteSessionBySessionId(int _sessionId);
+        CustomResponse GetAllSessionInMemory();
     }
 }

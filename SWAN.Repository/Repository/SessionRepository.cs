@@ -21,5 +21,15 @@ namespace SWAN.Repository.Repository
             Session session = _context.Sessions.Where(p => p.Id == _sessionId).FirstOrDefault();
             return base.DeleteEntity(session);
         }
+
+        public CustomResponse GetAllSessionInMemory()
+        {
+            string[] data = new string[] { "Item 1", "Item 1", "Item 1" };
+            return new CustomResponse()
+            {
+                Status = 200,
+                Data = data
+            };
+        }
     }
 }

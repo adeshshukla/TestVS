@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http.Filters;
+using SWAN.Helper;
 
 namespace SWAN.Filters
 {
@@ -26,12 +27,14 @@ namespace SWAN.Filters
                 _errorLogger.Error(actionExecutedContext.Exception + exceptionMessage + actionExecutedContext.Exception.StackTrace);
             }
             //We can log this exception message to the file or database.  
-            var response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-            {
-                Content = new StringContent("An unhandled exception was thrown by service."),
-                ReasonPhrase = "Internal Server Error.Please Contact your Administrator.",
-                StatusCode = HttpStatusCode.InternalServerError
-            };
+            //var response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+            //{
+            //    Content = new StringContent("An unhandled exception was thrown by service."),
+            //    ReasonPhrase = "Internal Server Error.Please Contact your Administrator.",
+            //    StatusCode = HttpStatusCode.InternalServerError
+            //};
+
+            var response = CustomApiResponse.CreateCustomResponse(500, exceptionMessage);
 
             actionExecutedContext.Response = response;
         }
