@@ -77,6 +77,51 @@ namespace SWAN.Helper
         }
     }
 
+    public static class CustomApiResponse2
+    {
+
+        public static HttpResponseMessage CreateCustomResponse(this HttpRequestMessage request, CustomResponse customStatus)
+        {
+            return CreateCustomApiResponse(request, customStatus);
+        }
+
+        public static HttpResponseMessage CreateCustomResponse(int status, string message = "")
+        {
+            return new HttpResponseMessage();
+            //return CreateCustomApiResponse(new CustomResponse()
+            //{
+            //    Status = status,
+            //    Result = message
+            //});
+        }
+
+        private static HttpResponseMessage CreateCustomApiResponse(HttpRequestMessage request, CustomResponse customStatus)
+        {
+            //ApiResponse apiResponse = new ApiResponse();
+            HttpResponseMessage mainResponse = new HttpResponseMessage();
+            switch (customStatus.Status)
+            {
+                case 200:
+                    customStatus.Result = "OK";
+                    return request.CreateResponse(HttpStatusCode.OK, customStatus);
+                    break;
+                case 201:
+                    customStatus.Result = "Created.";
+                    return request.CreateResponse(HttpStatusCode.Created, customStatus);
+                    break;
+                case 500:
+                    customStatus.Result = "Internal Server Error.Please Contact your Administrator.";
+                    return request.CreateResponse(HttpStatusCode.InternalServerError, customStatus);
+                    break;
+                default:
+                    customStatus.Result = "Internal Server Error.Please Contact your Administrator.";
+                    return request.CreateResponse(HttpStatusCode.InternalServerError, customStatus);
+                    break;
+
+            }
+        }
+    }
+
     //public class ApiResponse
     //{
     //    public HttpStatusCode StatusCode { get; set; }

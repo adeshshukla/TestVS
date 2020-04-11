@@ -24,13 +24,18 @@ namespace SWAN.Controllers
         public HttpResponseMessage GetAllSessions()
         {
             //throw new ArgumentNullException();
-            return _service.GetAllSessions().ToCustomApiResponse();
+
+            //return _service.GetAllSessions().ToCustomApiResponse();
+
+            var data = _service.GetAllSessions();
+            return Request.CreateCustomResponse(data);
         }
 
-        //public CustomResponse GetAllSessions()
-        //{
-        //    return _service.GetAllSessions();
-        //}
+        public CustomResponse GetAllSessions1()
+        {            
+            return _service.GetAllSessions();
+
+        }
 
         [HttpPost]
         public CustomResponse InsertSession([FromBody]SessionModel value)
